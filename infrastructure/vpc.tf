@@ -1,6 +1,7 @@
-# VPC. 
 resource "aws_vpc" "this" {
-  cidr_block = "10.0.0.0/16"
+  cidr_block           = "10.0.0.0/16"
+  enable_dns_support   = true
+  enable_dns_hostnames = true
 
   tags = merge(
     local.common_tags,
@@ -10,7 +11,6 @@ resource "aws_vpc" "this" {
   )
 }
 
-# Internet Gateway.
 resource "aws_internet_gateway" "this" {
   vpc_id = aws_vpc.this.id
 
@@ -22,7 +22,6 @@ resource "aws_internet_gateway" "this" {
   )
 }
 
-# Rotas.
 resource "aws_route" "this" {
   route_table_id         = aws_vpc.this.main_route_table_id
   destination_cidr_block = "0.0.0.0/0"

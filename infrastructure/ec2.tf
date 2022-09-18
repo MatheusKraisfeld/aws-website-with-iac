@@ -30,23 +30,8 @@ resource "aws_instance" "this" {
 
   vpc_security_group_ids = [aws_security_group.sg-web.id]
   subnet_id              = aws_subnet.this.id
-  
-  user_data = <<-EOF
-    #!/bin/bash
-    set -ex
-    sudo yum update -y
-    sudo amazon-linux-extras install docker -y
-    sudo service docker start
-    sudo usermod -a -G docker ec2-user
-    sudo curl -L https://github.com/docker/compose/releases/download/1.25.4/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
-    sudo chmod +x /usr/local/bin/docker-compose
-    sudo mkdir -p /usr/share/nginx/html
-    # sudo cd /usr/share/nginx/html
-    # sudo git clone https://github.com/MatheusKraisfeld/aws-website-with-iac.git
-    # sudo cd aws-website-with-iac
-    # sudo docker build . -t website:latest
-    # sudo docker run -d -p 80:80 website:latest
-  EOF
+
+  user_data = file("./user_data.sh")
 
   tags = merge(
     local.common_tags,

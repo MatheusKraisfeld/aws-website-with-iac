@@ -8,7 +8,6 @@ terraform {
   }
 
   backend "s3" {
-    # profile = "terraform"
     bucket  = "terraform-state-741358071637"
     key     = "aws-website-with-iac/terraform.tfstate"
     region  = "us-east-1"

@@ -34,6 +34,14 @@ resource "aws_security_group" "sg-web" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    description = "NFS"
+    from_port   = 2049
+    to_port     = 2049
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   tags = merge(
     local.common_tags,
     {
